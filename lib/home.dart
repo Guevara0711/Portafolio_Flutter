@@ -6,7 +6,11 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 768;
+    double screenWidth = MediaQuery.of(context).size.width;
+    // Ajustamos los breakpoints para que los botones pasen abajo antes de colisionar
+    bool isMobile = screenWidth < 768;
+    bool isTablet = screenWidth >= 768 && screenWidth < 1024;
+    bool isDesktop = screenWidth >= 1024;
     
     return Scaffold(
       body: Stack(
@@ -19,122 +23,148 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           
-          // Header fijo (imagen y links)
+          // Header fijo
           Positioned(
-            top: 16,
+            top: isMobile ? 16 : 16,
             left: 0,
             right: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: SizedBox(
+              height: 100,
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  // Logo/Imagen
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.blue[600],
-                      shape: BoxShape.circle,
+                  // Contenedor para logo y links
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isDesktop ? screenWidth * 0.15 : 24, // 15% de padding en cada lado en desktop
                     ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  // Links de la derecha
-                  Row(
-                    children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Resume',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Logo
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.blue[600],
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 24),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'LinkedIn',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
+                        
+                        // Links derecha
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Resume',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 24),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'LinkedIn',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                  // Botones centrales (siempre centrados en la pantalla)
+                  if (!isMobile)
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _buildButton("Work", true),
+                            const SizedBox(width: 8),
+                            _buildButton("Projects", false),
+                            const SizedBox(width: 8),
+                            _buildButton("Self", false),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
                 ],
               ),
             ),
           ),
           
-          // Navegación responsiva (siempre centrada horizontalmente)
-          const ResponsiveNavigation(),
+          // Botones para mobile en la parte inferior
+          if (isMobile)
+            Positioned(
+              bottom: 35,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  margin: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildButton("Work", true),
+                      const SizedBox(width: 8),
+                      _buildButton("Projects", false),
+                      const SizedBox(width: 8),
+                      _buildButton("Self", false),
+                    ],
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
 }
 
-class ResponsiveNavigation extends StatelessWidget {
-  const ResponsiveNavigation({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 768;
-
-    return Align(
-      alignment: isMobile ? Alignment.bottomCenter : Alignment.topCenter,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(40),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 7),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildButton("Work", true),
-              const SizedBox(width: 8),
-              _buildButton("Projects", false),
-              const SizedBox(width: 8),
-              _buildButton("Self", false),
-            ],
-          ),
-        ),
+Widget _buildButton(String text, bool isPrimary) {
+  return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: isPrimary ? Colors.blue[600] : Colors.grey[800],
+      foregroundColor: Colors.white,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
       ),
-    );
-  }
-
-  Widget _buildButton(String text, bool isPrimary) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isPrimary ? Colors.blue[600] : Colors.grey[800],
-        foregroundColor: Colors.white,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+    ),
+    onPressed: () {},
+    child: Text(
+      text,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
       ),
-      onPressed: () {},
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
-  }
+    ),
+  );
 }
