@@ -1,27 +1,51 @@
 import 'package:flutter/material.dart';
+import 'pages/work.dart';
+import 'pages/projects.dart';
+import 'pages/self.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
 
   @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _currentPage = 0; // 0: Work, 1: Projects, 2: Self
+
+  // Función para cambiar de página
+  void _changePage(int index) {
+    setState(() {
+      _currentPage = index;
+    });
+  }
+
+  // Widget para mostrar el contenido actual
+  Widget _getCurrentPage() {
+    switch (_currentPage) {
+      case 0:
+        return const WorkPage();
+      case 1:
+        return const ProjectsPage();
+      case 2:
+        return const SelfPage();
+      default:
+        return const WorkPage();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    // Ajustamos los breakpoints para que los botones pasen abajo antes de colisionar
     bool isMobile = screenWidth < 768;
-    bool isTablet = screenWidth >= 768 && screenWidth < 1024;
     bool isDesktop = screenWidth >= 1024;
     
     return Scaffold(
       body: Stack(
         children: [
-          // Contenido principal
-          Center(
-            child: Text(
-              'Portafolio',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ),
+          // Contenido principal - Aquí se muestra la página actual
+          _getCurrentPage(),
           
           // Header fijo
           Positioned(
@@ -33,15 +57,13 @@ class MyHomePage extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Contenedor para logo y links
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: isDesktop ? screenWidth * 0.15 : 24, // 15% de padding en cada lado en desktop
+                      horizontal: isDesktop ? screenWidth * 0.15 : 24,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Logo
                         Container(
                           width: 40,
                           height: 40,
@@ -57,7 +79,6 @@ class MyHomePage extends StatelessWidget {
                           ),
                         ),
                         
-                        // Links derecha
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -88,7 +109,6 @@ class MyHomePage extends StatelessWidget {
                     ),
                   ),
                   
-                  // Botones centrales (siempre centrados en la pantalla)
                   if (!isMobile)
                     Center(
                       child: Container(
@@ -100,11 +120,11 @@ class MyHomePage extends StatelessWidget {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            _buildButton("Work", true),
+                            _buildButton("Work", _currentPage == 0, () => _changePage(0)),
                             const SizedBox(width: 8),
-                            _buildButton("Projects", false),
+                            _buildButton("Projects", _currentPage == 1, () => _changePage(1)),
                             const SizedBox(width: 8),
-                            _buildButton("Self", false),
+                            _buildButton("Self", _currentPage == 2, () => _changePage(2)),
                           ],
                         ),
                       ),
@@ -114,7 +134,6 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           
-          // Botones para mobile en la parte inferior
           if (isMobile)
             Positioned(
               bottom: 35,
@@ -131,11 +150,11 @@ class MyHomePage extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildButton("Work", true),
+                      _buildButton("Work", _currentPage == 0, () => _changePage(0)),
                       const SizedBox(width: 8),
-                      _buildButton("Projects", false),
+                      _buildButton("Projects", _currentPage == 1, () => _changePage(1)),
                       const SizedBox(width: 8),
-                      _buildButton("Self", false),
+                      _buildButton("Self", _currentPage == 2, () => _changePage(2)),
                     ],
                   ),
                 ),
@@ -145,26 +164,26 @@ class MyHomePage extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget _buildButton(String text, bool isPrimary) {
-  return ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      backgroundColor: isPrimary ? Colors.blue[600] : Colors.grey[800],
-      foregroundColor: Colors.white,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
+  Widget _buildButton(String text, bool isPrimary, VoidCallback onPressed) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isPrimary ? Colors.blue[600] : Colors.grey[800],
+        foregroundColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-    ),
-    onPressed: () {},
-    child: Text(
-      text,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
