@@ -12,16 +12,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _currentPage = 0; // 0: Work, 1: Projects, 2: Self
+  int _currentPage = 0;
 
-  // Función para cambiar de página
   void _changePage(int index) {
     setState(() {
       _currentPage = index;
     });
   }
 
-  // Widget para mostrar el contenido actual
   Widget _getCurrentPage() {
     switch (_currentPage) {
       case 0:
@@ -44,99 +42,102 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Contenido principal - Aquí se muestra la página actual
-          _getCurrentPage(),
-          
-          // Header fijo
-          Positioned(
-            top: isMobile ? 16 : 16,
-            left: 0,
-            right: 0,
-            child: SizedBox(
-              height: 100,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isDesktop ? screenWidth * 0.15 : 24,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.blue[600],
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.white,
+          Column(
+            children: [
+              // Header fijo con padding ajustable
+              Container(
+                height: isMobile ? 90 : 90,  // Altura ajustada en móvil
+                padding: EdgeInsets.only(top: isMobile ? 30 : 0),  // Padding superior ajustable
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isDesktop ? screenWidth * 0.15 : 24,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.blue[600],
+                              shape: BoxShape.circle,
                             ),
-                          ),
-                        ),
-                        
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Resume',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.white,
                               ),
                             ),
-                            const SizedBox(width: 24),
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'LinkedIn',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
+                          ),
+                          
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'Resume',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  
-                  if (!isMobile)
-                    Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _buildButton("Work", _currentPage == 0, () => _changePage(0)),
-                            const SizedBox(width: 8),
-                            _buildButton("Projects", _currentPage == 1, () => _changePage(1)),
-                            const SizedBox(width: 8),
-                            _buildButton("Self", _currentPage == 2, () => _changePage(2)),
-                          ],
-                        ),
+                              const SizedBox(width: 24),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'LinkedIn',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                ],
+                    
+                    if (!isMobile)
+                      Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _buildButton("Work", _currentPage == 0, () => _changePage(0)),
+                              const SizedBox(width: 8),
+                              _buildButton("Projects", _currentPage == 1, () => _changePage(1)),
+                              const SizedBox(width: 8),
+                              _buildButton("Self", _currentPage == 2, () => _changePage(2)),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
-            ),
+              
+              // Contenido principal
+              Expanded(
+                child: _getCurrentPage(),
+              ),
+            ],
           ),
           
+          // Barra de navegación móvil
           if (isMobile)
             Positioned(
-              bottom: 35,
+              bottom: 20,  // Ajustado para estar más arriba
               left: 0,
               right: 0,
               child: Center(
