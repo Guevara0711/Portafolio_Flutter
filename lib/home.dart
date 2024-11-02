@@ -42,102 +42,112 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          Column(
-            children: [
-              // Header fijo con padding ajustable
-              Container(
-                height: isMobile ? 90 : 90,  // Altura ajustada en móvil
-                padding: EdgeInsets.only(top: isMobile ? 30 : 0),  // Padding superior ajustable
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: isDesktop ? screenWidth * 0.15 : 24,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.blue[600],
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.person,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'Resume',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 24),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'LinkedIn',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    
-                    if (!isMobile)
-                      Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              _buildButton("Work", _currentPage == 0, () => _changePage(0)),
-                              const SizedBox(width: 8),
-                              _buildButton("Projects", _currentPage == 1, () => _changePage(1)),
-                              const SizedBox(width: 8),
-                              _buildButton("Self", _currentPage == 2, () => _changePage(2)),
-                            ],
-                          ),
-                        ),
-                      ),
+          // Contenido principal con scroll
+          _getCurrentPage(),
+          
+          // Header flotante
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: isMobile ? 90 : 90,
+              padding: EdgeInsets.only(top: isMobile ? 30 : 0),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white.withOpacity(0.1),
+                    Colors.white.withOpacity(0.1),
                   ],
                 ),
+                
               ),
-              
-              // Contenido principal
-              Expanded(
-                child: _getCurrentPage(),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isDesktop ? screenWidth * 0.15 : 24,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.blue[600],
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Resume',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 24),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'LinkedIn',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                  if (!isMobile)
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _buildButton("Work", _currentPage == 0, () => _changePage(0)),
+                            const SizedBox(width: 8),
+                            _buildButton("Projects", _currentPage == 1, () => _changePage(1)),
+                            const SizedBox(width: 8),
+                            _buildButton("Self", _currentPage == 2, () => _changePage(2)),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
               ),
-            ],
+            ),
           ),
           
-          // Barra de navegación móvil
+          // Navegación móvil en la parte inferior
           if (isMobile)
             Positioned(
-              bottom: 20,  // Ajustado para estar más arriba
+              bottom: 20,
               left: 0,
               right: 0,
               child: Center(
@@ -169,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildButton(String text, bool isPrimary, VoidCallback onPressed) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: isPrimary ? Colors.blue[600] : Colors.grey[800],
+        backgroundColor: isPrimary ? Colors.blue[600] : Colors.black.withOpacity(0.3),
         foregroundColor: Colors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(

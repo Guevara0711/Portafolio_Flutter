@@ -1,7 +1,32 @@
 import 'package:flutter/material.dart';
 
-class WorkPage extends StatelessWidget {
+class WorkPage extends StatefulWidget {
   const WorkPage({super.key});
+
+  @override
+  State<WorkPage> createState() => _WorkPageState();
+}
+
+class _WorkPageState extends State<WorkPage> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Ahora esperamos que el widget se construya y ajustamos la posición inicial
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        // Ajustamos la posición inicial a 0 para que empiece bajo el header
+        _scrollController.jumpTo(0);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -9,13 +34,15 @@ class WorkPage extends StatelessWidget {
     
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            20.0, 
-            isMobile ? 10.0 : 20.0, 
-            20.0, 
-            isMobile ? 100.0 : 20.0
-          ),
+        controller: _scrollController,
+        padding: EdgeInsets.fromLTRB(
+          20.0, 
+          100.0,  // Ajustado a 90.0 para que el contenido empiece más abajo
+          20.0, 
+          isMobile ? 100.0 : 20.0
+        ),
+        // Añadimos un ClipRect para asegurar que el scroll no se salga de los límites
+        child: ClipRect(
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1200),
@@ -27,31 +54,31 @@ class WorkPage extends StatelessWidget {
                     title: "Microsoft Dynamics",
                     tags: ["UX Design", "Research"],
                     description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
-                    imageUrl: "assets/images/Estación Otemachi_.jpeg", // Nombre de archivo actualizado
+                    imageUrl: "assets/images/Estación Otemachi_.jpeg",
                   ),
                   _buildCard(
                     title: "Microsoft Dynamics",
                     tags: ["UX Design", "Research"],
                     description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
-                    imageUrl: "assets/images/Estación Otemachi_.jpeg", // Nombre de archivo actualizado
+                    imageUrl: "assets/images/Estación Otemachi_.jpeg",
                   ),
                   _buildCard(
                     title: "Microsoft Dynamics",
                     tags: ["UX Design", "Research"],
                     description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
-                    imageUrl: "assets/images/Estación Otemachi_.jpeg", // Nombre de archivo actualizado
+                    imageUrl: "assets/images/Estación Otemachi_.jpeg",
                   ),
                   _buildCard(
                     title: "Microsoft Dynamics",
                     tags: ["UX Design", "Research"],
                     description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
-                    imageUrl: "assets/images/Estación Otemachi_.jpeg", // Nombre de archivo actualizado
+                    imageUrl: "assets/images/Estación Otemachi_.jpeg",
                   ),
                   _buildCard(
                     title: "Microsoft Dynamics",
                     tags: ["UX Design", "Research"],
                     description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
-                    imageUrl: "assets/images/Estación Otemachi_.jpeg", // Nombre de archivo actualizado
+                    imageUrl: "assets/images/Estación Otemachi_.jpeg",
                   ),
                 ],
               ),
