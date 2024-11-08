@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'pages/work.dart';
 import 'pages/projects.dart';
 import 'pages/self.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -13,6 +14,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentPage = 0;
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   void _changePage(int index) {
     setState(() {
@@ -81,10 +89,14 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Colors.blue[600],
                             shape: BoxShape.circle,
                           ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.white,
+                          child: Center(
+                            child: ClipOval(
+                              child: Image.asset(
+                                'assets/images/profile.jpeg',
+                                fit: BoxFit.cover,
+                                width: 40,
+                                height: 40,
+                              ),
                             ),
                           ),
                         ),
@@ -93,24 +105,50 @@ class _MyHomePageState extends State<MyHomePage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Resume',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                ),
+                              onPressed: () {
+                                _launchURL('https://utpac-my.sharepoint.com/:b:/g/personal/pedro_castillo3_utp_ac_pa/Edzyr0fisbxEhloKHBoYBWIB8WeEeAd5KdRHLwo3VUQVkQ?e=JzgASp');
+                              },
+                              style: ButtonStyle(
+                                overlayColor: WidgetStateProperty.all(Colors.transparent),
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Resume',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Icon(Icons.open_in_new, color: Colors.black),
+                                ],
                               ),
                             ),
                             const SizedBox(width: 24),
                             TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'LinkedIn',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                ),
+                              onPressed: () {
+                                _launchURL('https://www.linkedin.com/in/pedro-castillo-guevara/');
+                              },
+                              style: ButtonStyle(
+                                overlayColor: WidgetStateProperty.all(Colors.transparent),
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'LinkedIn',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Icon(Icons.open_in_new, color: Colors.black),
+                                ],
                               ),
                             ),
                           ],
