@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Center(
                             child: ClipOval(
                               child: Image.asset(
-                                'assets/images/profile.jpeg',
+                                'assets/images/guevara07.jpeg',
                                 fit: BoxFit.cover,
                                 width: 40,
                                 height: 40,

@@ -33,6 +33,7 @@ class _WorkPageState extends State<WorkPage> {
     bool isMobile = MediaQuery.of(context).size.width < 768;
     
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F3EE),
       body: SingleChildScrollView(
         controller: _scrollController,
         padding: EdgeInsets.fromLTRB(
@@ -44,44 +45,186 @@ class _WorkPageState extends State<WorkPage> {
         // Añadimos un ClipRect para asegurar que el scroll no se salga de los límites
         child: ClipRect(
           child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1200),
-              child: Wrap(
-                spacing: 20,
-                runSpacing: 20,
-                children: [
-                  _buildCard(
-                    title: "Microsoft Dynamics",
-                    tags: ["UX Design", "Research"],
-                    description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
-                    imageUrl: "assets/images/Estación Otemachi_.jpeg",
+            child: Column(
+              children: [
+                // Añadido el texto centrado antes de los cards
+                const SizedBox(height: 20), 
+                const Center(
+                  child: Text.rich(
+                    TextSpan(
+                      text: "Hi! I’m ",
+                      style: TextStyle(
+                        fontFamily: 'Playfair Display',     
+                        fontSize: 22, // Tamaño de fuente por defecto
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: "Pedro Castillo",
+                          style: TextStyle(
+                            fontFamily: 'Playfair Display',
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 22, // Aumentado para pantallas grandes
+                          ),
+                        ),
+                        TextSpan(
+                          text: ",\nSoftware Engineer based in Panama City",
+                          style: TextStyle(
+                            fontFamily: 'Playfair Display',
+                            
+                            fontSize: 24, // Aumentado para pantallas grandes
+                          ),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  _buildCard(
-                    title: "Microsoft Dynamics",
-                    tags: ["UX Design", "Research"],
-                    description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
-                    imageUrl: "assets/images/Estación Otemachi_.jpeg",
-                  ),
-                  _buildCard(
-                    title: "Microsoft Dynamics",
-                    tags: ["UX Design", "Research"],
-                    description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
-                    imageUrl: "assets/images/Estación Otemachi_.jpeg",
-                  ),
-                  _buildCard(
-                    title: "Microsoft Dynamics",
-                    tags: ["UX Design", "Research"],
-                    description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
-                    imageUrl: "assets/images/Estación Otemachi_.jpeg",
-                  ),
-                  _buildCard(
-                    title: "Microsoft Dynamics",
-                    tags: ["UX Design", "Research"],
-                    description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
-                    imageUrl: "assets/images/Estación Otemachi_.jpeg",
-                  ),
-                ],
-              ),
+                ),
+                // Espacio entre el texto y los cards
+                const SizedBox(height: 60), 
+                
+                Wrap(
+                  spacing: 20,
+                  runSpacing: 20,
+                  children: [
+                    _buildCard(
+                      title: "Asamblea Nacional",
+                      tags: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF245DFF), // Cambiado el fondo a color #245dff solo para este tag
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            "• Work",
+                            style: TextStyle(fontSize: 12, color: Colors.white),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(217, 32, 32, 32), // Cambiado el fondo a color #d913e7ff para "Research"
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            "Cybersecurity Analyst",
+                            style: TextStyle(fontSize: 12, color: Colors.white),
+                          ),
+                        ),
+                      ],
+                      description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
+                      imageUrl: "assets/images/work1.jpg",
+                    ),
+
+                    _buildCard(
+                      title: "Asamblea Nacional",
+                      tags: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(217, 219, 19, 245), // Cambiado el fondo a color #245dff solo para este tag
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            "• Work placements",
+                            style: TextStyle(fontSize: 12, color: Colors.white),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(217, 32, 32, 32), // Cambiado el fondo a color #d913e7ff para "Research"
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            "Software Engineer Jr.",
+                            style: TextStyle(fontSize: 12, color: Colors.white),
+                          ),
+                        ),
+                      ],
+                      description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
+                      imageUrl: "assets/images/work_placements1.jpg",
+                    ),
+
+                    _buildCard(
+                      title: "Microsoft Dynamics",
+                      tags: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF245DFF), // Cambiado el fondo a color #245dff solo para este tag
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            "• Work",
+                            style: TextStyle(fontSize: 12, color: Colors.black),
+                          ),
+                        ),
+                        const Text(
+                          "Research",
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                      description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
+                      imageUrl: "assets/images/Estación Otemachi_.jpeg",
+                    ),
+
+                    _buildCard(
+                      title: "Microsoft Dynamics",
+                      tags: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF245DFF), // Cambiado el fondo a color #245dff solo para este tag
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            "• Work",
+                            style: TextStyle(fontSize: 12, color: Colors.black),
+                          ),
+                        ),
+                        const Text(
+                          "Research",
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                      description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
+                      imageUrl: "assets/images/Estación Otemachi_.jpeg",
+                    ),
+
+                    _buildCard(
+                      title: "Microsoft Dynamics",
+                      tags: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF245DFF), // Cambiado el fondo a color #245dff solo para este tag
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            "• Work",
+                            style: TextStyle(fontSize: 12, color: Colors.black),
+                          ),
+                        ),
+                        const Text(
+                          "Research",
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                      description: "Enhancing AI assistance for Customer Support Agents to facilitate faster case resolution",
+                      imageUrl: "assets/images/Estación Otemachi_.jpeg",
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
@@ -91,7 +234,7 @@ class _WorkPageState extends State<WorkPage> {
 
   Widget _buildCard({
     required String title,
-    required List<String> tags,
+    required List<Widget> tags,
     required String description,
     required String imageUrl,
   }) {
@@ -151,7 +294,7 @@ class _WorkPageState extends State<WorkPage> {
           ),
           const SizedBox(height: 8),
           Row(
-            children: tags.map((tag) => _buildTag(tag)).toList(),
+            children: tags,
           ),
           const SizedBox(height: 8),
           Text(
@@ -163,24 +306,57 @@ class _WorkPageState extends State<WorkPage> {
           const SizedBox(height: 8),
           TextButton(
             onPressed: () {},
-            child: const Text("Read more", style: TextStyle(color: Colors.blue)),
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.all(Colors.transparent), // Sin hover transparente
+              padding: WidgetStateProperty.all(EdgeInsets.zero), // Sin espaciado de la izquierda
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(width: 2), // Añadido espacio a la izquierda del Row
+                ZoomOnHover(
+                  child: Text(
+                    "Read more",
+                    style: TextStyle(
+                      color: Colors.black,
+                      decoration: TextDecoration.underline, // Subrayado
+                    ),
+                  ),
+                ),
+                SizedBox(width: 4), // Espacio entre el texto y el icono
+                AnimatedSwitcher( // Añadido para animación
+                  duration: Duration(milliseconds: 300),
+                  child: Icon(Icons.arrow_outward, color: Colors.black), // Cambiado a icono de flecha apuntando a 45 grados
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildTag(String text) {
-    return Container(
-      margin: const EdgeInsets.only(right: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 12, color: Colors.black),
+class ZoomOnHover extends StatefulWidget {
+  final Widget child;
+  const ZoomOnHover({super.key, required this.child}) : super();
+
+  @override
+  ZoomOnHoverState createState() => ZoomOnHoverState();
+}
+
+class ZoomOnHoverState extends State<ZoomOnHover> {
+  bool _hovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovering = true),
+      onExit: (_) => setState(() => _hovering = false),
+      child: AnimatedScale(
+        scale: _hovering ? 1.03 : 1.0,
+        duration: const Duration(milliseconds: 300),
+        child: widget.child,
       ),
     );
   }
